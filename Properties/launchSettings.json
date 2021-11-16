@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MakeRes (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MakeRes (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
