@@ -7,7 +7,17 @@
     <ItemGroup>
         <ResourceInputs Include="$(MSBuildProjectDirectory)\*.aspx" />
         <PRIResource Include="$(ResourceOutput)" />
+        <UpToDateCheckInput Include="@(ResourceInputs)" Set="Resources" />
+        <UpToDateCheckBuilt Include="$(ResourceOutput)" Set="Resources" />
     </ItemGroup>
+    <!--Limitation of FUTD: if resources alone are updated and processed, resources.pri alone will be rebuilt, 
+    but makeres.pdb will not be, and the project will report "not up to date".  No apparent way to capture
+    resource.pri as a build output too and prevent rebuild.--> 
+    <!--<Target Name="GenerateResourceFile" BeforeTargets="GenerateProjectPriFile" AfterTargets="CalculateAppxGenerateProjectPriEnabled">
+        <ItemGroup>
+            <UpToDateCheckBuilt Include="$(ProjectPriFullPath)" />
+        </ItemGroup>
+    </Target>-->
     <Target Name="GenerateResourceFile" Inputs="@(ResourceInputs)" Outputs="$(ResourceOutput)">
         <PropertyGroup>
             <ResourceTask>copy /y /b @(ResourceInputs->'%(Identity)', '+') $(ResourceOutput)</ResourceTask>
